@@ -1,6 +1,6 @@
 #!/bin/bash
 # \
-exec vsim -64 -do "$0"
+exec vsim -do "$0"
 
 set TB            tb
 set VSIM_FLAGS    "-gTEST=\"MEM_DPI\""
