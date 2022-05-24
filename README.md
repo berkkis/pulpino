@@ -1,5 +1,8 @@
 <img src="https://raw.githubusercontent.com/pulp-platform/pulpino/master/doc/datasheet/figures/pulpino_logo_inline1.png" width="400px" />
 
+# MBAYKENAR NOTE !!!
+I modified pulpino repo of pulp-platform and pushed to my github profile. Main issue was -64 option for running Modelsim in Ubuntu.  
+
 # Introduction
 
 PULPino is an open-source single-core microcontroller system, based on 32-bit
