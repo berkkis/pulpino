@@ -103,11 +103,11 @@ set_property strategy Flow_AreaOptimized_High [get_runs synth_1]
 
 # run synthesis
 # first try will fail
-catch {synth_design -rtl -name rtl_1 -generic USE_ZERO_RISCY=$::env(USE_ZERO_RISCY) -generic RISCY_RV32F=$::env(RISCY_RV32F) -generic ZERO_RV32M=$::env(ZERO_RV32M) -generic ZERO_RV32E=$::env(ZERO_RV32E) -verilog_define PULP_FPGA_EMUL=1 -verilog_define RISCV -flatten_hierarchy full -gated_clock_conversion on -constrset constrs_1}
+catch {synth_design -rtl -name rtl_1 -generic USE_ZERO_RISCY=$::env(USE_ZERO_RISCY) -generic RISCY_RV32F=$::env(RISCY_RV32F) -generic ZERO_RV32M=$::env(ZERO_RV32M) -generic ZERO_RV32E=$::env(ZERO_RV32E) -verilog_define PULP_FPGA_EMUL=1 -verilog_define SYNTHESIS=0 -verilog_define RISCV -flatten_hierarchy full -gated_clock_conversion on -constrset constrs_1}
 
 update_compile_order -fileset sources_1
 
-synth_design -rtl -name rtl_1 -generic USE_ZERO_RISCY=$::env(USE_ZERO_RISCY) -generic RISCY_RV32F=$::env(RISCY_RV32F) -generic ZERO_RV32M=$::env(ZERO_RV32M) -generic ZERO_RV32E=$::env(ZERO_RV32E) -verilog_define PULP_FPGA_EMUL=1 -verilog_define RISCV -flatten_hierarchy full -gated_clock_conversion on -constrset constrs_1
+synth_design -rtl -name rtl_1 -generic USE_ZERO_RISCY=$::env(USE_ZERO_RISCY) -generic RISCY_RV32F=$::env(RISCY_RV32F) -generic ZERO_RV32M=$::env(ZERO_RV32M) -generic ZERO_RV32E=$::env(ZERO_RV32E) -verilog_define PULP_FPGA_EMUL=1 -verilog_define SYNTHESIS=0 -verilog_define RISCV -flatten_hierarchy full -gated_clock_conversion on -constrset constrs_1
 
 #set_property STEPS.SYNTH_DESIGN.ARGS.KEEP_EQUIVALENT_REGISTERS true [get_runs synth_1]
 #set_property STEPS.SYNTH_DESIGN.ARGS.RESOURCE_SHARING off [get_runs synth_1]

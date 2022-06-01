@@ -51,41 +51,48 @@
       // preload data memory
       for(addr = 0; addr < data_size/4; addr = addr) begin
 
-        for(bidx = 0; bidx < data_width/8; bidx++) begin
+//        for(bidx = 0; bidx < data_width/8; bidx++) begin
           mem_addr = addr / (data_width/32);
           data = data_mem[addr];
 
-          if (bidx%4 == 0)
-            tb.top_i.core_region_i.data_mem.sp_ram_i.mem[mem_addr][bidx] = data[ 7: 0];
-          else if (bidx%4 == 1)
-            tb.top_i.core_region_i.data_mem.sp_ram_i.mem[mem_addr][bidx] = data[15: 8];
-          else if (bidx%4 == 2)
-            tb.top_i.core_region_i.data_mem.sp_ram_i.mem[mem_addr][bidx] = data[23:16];
-          else if (bidx%4 == 3)
-            tb.top_i.core_region_i.data_mem.sp_ram_i.mem[mem_addr][bidx] = data[31:24];
-
-          if (bidx%4 == 3) addr++;
-        end
+//          if (bidx%4 == 0)
+//            tb.top_i.core_region_i.data_mem.sp_ram_i.mem[mem_addr][bidx] = data[ 7: 0];
+//          else if (bidx%4 == 1)
+//            tb.top_i.core_region_i.data_mem.sp_ram_i.mem[mem_addr][bidx] = data[15: 8];
+//          else if (bidx%4 == 2)
+//            tb.top_i.core_region_i.data_mem.sp_ram_i.mem[mem_addr][bidx] = data[23:16];
+//          else if (bidx%4 == 3)
+//            tb.top_i.core_region_i.data_mem.sp_ram_i.mem[mem_addr][bidx] = data[31:24];
+//            
+//          if (bidx%4 == 3) addr++;
+          
+            tb.top_i.core_region_i.data_mem.open_ram_2k.mem[mem_addr] = data[31:0];
+            addr = addr + 1;
+//        end
       end
 
       // preload instruction memory
       for(addr = 0; addr < instr_size/4; addr = addr) begin
 
-        for(bidx = 0; bidx < instr_width/8; bidx++) begin
+//        for(bidx = 0; bidx < instr_width/8; bidx++) begin
           mem_addr = addr / (instr_width/32);
           data = instr_mem[addr];
 
-          if (bidx%4 == 0)
-            tb.top_i.core_region_i.instr_mem.sp_ram_wrap_i.sp_ram_i.mem[mem_addr][bidx] = data[ 7: 0];
-          else if (bidx%4 == 1)
-            tb.top_i.core_region_i.instr_mem.sp_ram_wrap_i.sp_ram_i.mem[mem_addr][bidx] = data[15: 8];
-          else if (bidx%4 == 2)
-            tb.top_i.core_region_i.instr_mem.sp_ram_wrap_i.sp_ram_i.mem[mem_addr][bidx] = data[23:16];
-          else if (bidx%4 == 3)
-            tb.top_i.core_region_i.instr_mem.sp_ram_wrap_i.sp_ram_i.mem[mem_addr][bidx] = data[31:24];
+//          if (bidx%4 == 0)
+//            tb.top_i.core_region_i.instr_mem.sp_ram_wrap_i.sp_ram_i.mem[mem_addr][bidx] = data[ 7: 0];
+//          else if (bidx%4 == 1)
+//            tb.top_i.core_region_i.instr_mem.sp_ram_wrap_i.sp_ram_i.mem[mem_addr][bidx] = data[15: 8];
+//          else if (bidx%4 == 2)
+//            tb.top_i.core_region_i.instr_mem.sp_ram_wrap_i.sp_ram_i.mem[mem_addr][bidx] = data[23:16];
+//          else if (bidx%4 == 3)
+//            tb.top_i.core_region_i.instr_mem.sp_ram_wrap_i.sp_ram_i.mem[mem_addr][bidx] = data[31:24];   
+//
+//          if (bidx%4 == 3) addr++;            
+            
+          tb.top_i.core_region_i.instr_mem.sp_ram_wrap_i.open_ram_2k.mem[mem_addr] = data[31:0]; 
+          addr = addr + 1;
 
-          if (bidx%4 == 3) addr++;
-        end
+//        end
       end
     end
   endtask

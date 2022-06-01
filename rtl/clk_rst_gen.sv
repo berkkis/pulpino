@@ -36,41 +36,46 @@ module clk_rst_gen
   logic clk_fll_int;
   logic clk_int;
 
-  cluster_clock_mux2
-  clk_mux_i
-  (
-      .clk_sel_i ( clk_sel_i     ),
-      .clk0_i    ( clk_i         ),
-      .clk1_i    ( clk_fll_int   ),
-      .clk_o     ( clk_int       )
-  );
+//  cluster_clock_mux2
+//  clk_mux_i
+//  (
+//      .clk_sel_i ( clk_sel_i     ),
+//      .clk0_i    ( clk_i         ),
+//      .clk1_i    ( clk_fll_int   ),
+//      .clk_o     ( clk_int       )
+//  );
+assign clk_int = clk_i; 
 
   //----------------------------------------------------------------------------//
   // FLL
   //----------------------------------------------------------------------------//
 
 `ifdef ASIC
-  umcL65_LL_FLL
-  fll_i
-  (
-    .FLLCLK     ( clk_fll_int       ),
-    .FLLOE      ( 1'b1              ),
-    .REFCLK     ( clk_i             ),
-    .LOCK       ( fll_lock_o        ),
-    .CFGREQ     ( fll_req_i         ),
-    .CFGACK     ( fll_ack_o         ),
-    .CFGAD      ( fll_add_i         ),
-    .CFGD       ( fll_data_i        ),
-    .CFGQ       ( fll_r_data_o      ),
-    .CFGWEB     ( fll_wrn_i         ),
-    .RSTB       ( rstn_i            ),
-    .PWDB       ( clk_sel_i         ),
-    .STAB       ( clk_standalone_i  ),
-    .TM         ( testmode_i        ),
-    .TE         ( scan_en_i         ),
-    .TD         ( scan_i            ),
-    .TQ         ( scan_o            )
-  );
+//  umcL65_LL_FLL
+//  fll_i
+//  (
+//    .FLLCLK     ( clk_fll_int       ),
+//    .FLLOE      ( 1'b1              ),
+//    .REFCLK     ( clk_i             ),
+//    .LOCK       ( fll_lock_o        ),
+//    .CFGREQ     ( fll_req_i         ),
+//    .CFGACK     ( fll_ack_o         ),
+//    .CFGAD      ( fll_add_i         ),
+//    .CFGD       ( fll_data_i        ),
+//    .CFGQ       ( fll_r_data_o      ),
+//    .CFGWEB     ( fll_wrn_i         ),
+//    .RSTB       ( rstn_i            ),
+//    .PWDB       ( clk_sel_i         ),
+//    .STAB       ( clk_standalone_i  ),
+//    .TM         ( testmode_i        ),
+//    .TE         ( scan_en_i         ),
+//    .TD         ( scan_i            ),
+//    .TQ         ( scan_o            )
+//  );
+  assign fll_ack_o    = fll_req_i;
+  assign fll_r_data_o = 1'b0;
+  assign fll_lock_o   = 1'b0;
+  assign scan_o       = 1'b0;
 `else
   assign fll_ack_o    = fll_req_i;
   assign fll_r_data_o = 1'b0;

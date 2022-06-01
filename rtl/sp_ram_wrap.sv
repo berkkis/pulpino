@@ -51,22 +51,38 @@ module sp_ram_wrap
    // assign rdata_o = (bypass_en_i) ? wdata_i : ram_out_int;
    assign rdata_o = ram_out_int;
 
-   sp_ram_bank
-   #(
-    .NUM_BANKS  ( RAM_SIZE/4096 ),
-    .BANK_SIZE  ( 1024          )
-   )
-   sp_ram_bank_i
-   (
-    .clk_i   ( clk                     ),
-    .rstn_i  ( rstn_i                  ),
-    .en_i    ( en_i                    ),
-    .addr_i  ( addr_i                  ),
-    .wdata_i ( wdata_i                 ),
-    .rdata_o ( ram_out_int             ),
-    .we_i    ( (we_i & ~bypass_en_i)   ),
-    .be_i    ( be_i                    )
-   );
+//   sp_ram_bank
+//   #(
+//    .NUM_BANKS  ( RAM_SIZE/4096 ),
+//    .BANK_SIZE  ( 1024          )
+//   )
+//   sp_ram_bank_i
+//   (
+//    .clk_i   ( clk                     ),
+//    .rstn_i  ( rstn_i                  ),
+//    .en_i    ( en_i                    ),
+//    .addr_i  ( addr_i                  ),
+//    .wdata_i ( wdata_i                 ),
+//    .rdata_o ( ram_out_int             ),
+//    .we_i    ( (we_i & ~bypass_en_i)   ),
+//    .be_i    ( be_i                    )
+//   );
+
+  sky130_sram_2kbyte_1rw1r_32x512_8
+  open_ram_2k (
+  .clk0   (clk), // clock
+  .csb0   (1'b0), // active low chip select
+  .web0   (~(we_i & ~bypass_en_i)), // active low write control, TODO: we_i works active_high, so negate it!
+  .wmask0 (be_i), // write mask
+  //.addr0  (addr_i[8:0]),
+  .addr0  (addr_i[10:2]),
+  .din0   (wdata_i),
+  .dout0  (ram_out_int),
+  .clk1   (1'b0), // clock
+  .csb1   (1'b1), // active low chip select
+  .addr1  (9'b000000000),
+  .dout1  ()
+  );
 
 `else
   sp_ram

@@ -2,3 +2,5 @@
 sw/build/*
 imperio
 ipstools
+sw/build_synth/*
+sw/build_openram/*

@@ -74,6 +74,7 @@ vlog -quiet -sv -work ${LIB_PATH} ${RTL_PATH}/components/pulp_clock_mux2.sv     
 vlog -quiet -sv -work ${LIB_PATH} ${RTL_PATH}/components/generic_fifo.sv            || goto error
 vlog -quiet -sv -work ${LIB_PATH} ${RTL_PATH}/components/rstgen.sv                  || goto error
 vlog -quiet -sv -work ${LIB_PATH} ${RTL_PATH}/components/sp_ram.sv                  || goto error
+vlog -quiet -sv -work ${LIB_PATH} ${RTL_PATH}/components/sky130_sram_2kbyte_1rw1r_32x512_8.v || goto error
 
 
 # files depending on RISCV vs. OR1K

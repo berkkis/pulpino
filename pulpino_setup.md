@@ -211,3 +211,62 @@ source ~/Desktop/pulpino_help/pulpino_env_setup.sh
 12) sudo rm -rf /opt/modelsim/modelsim_ase/gcc*/
 13) make helloworld.vsim
 14) Now you can run simulation in Modelsim
+
+# SYNTHESIS FOR ASIC
+
+I changed the script vsim/vsim_zero.tcl and added +define+SYNTHESIS=1 line for macro option. I got an expected error from Modelsim. 
+I also added `define ASIC 1 line to rtl/config.sv
+I am not sure which causes the error to be happened, not important for now but I think now Modelsim give error:  
+
+# ** Error: (vsim-3033) /home/mbaykenar/Desktop/new_pulpino/pulpino/vsim/..//rtl/sp_ram_wrap.sv(59): Instantiation of 'sp_ram_bank' failed. The design unit was not found.
+#    Time: 0 ps  Iteration: 0  Instance: /tb/top_i/core_region_i/instr_mem/sp_ram_wrap_i File: /home/mbaykenar/Desktop/new_pulpino/pulpino/vsim/..//rtl/sp_ram_wrap.sv
+
+Now I will change sp_ram_bank module with sky130_sram_2kbyte_1rw1r_32x512_8 module and see if it works!
+
+First I added this line to vsim/vcompile/rtl/vcompile_pulpino.sh
+   vlog -quiet -sv -work ${LIB_PATH} ${RTL_PATH}/components/sky130_sram_2kbyte_1rw1r_32x512_8.v || goto error
+
+I copied sky130_sram_2kbyte_1rw1r_32x512_8.sv file to rtl/components
+
+I instantiated sky130 openram file inside sp_ram_wrap module:
+
+
+Then I got an error from Modelsim below:
+   Error: (vsim-3043) /home/mbaykenar/Desktop/new_pulpino/pulpino/vsim/..//tb/tb_mem_pkg.sv(59): Unresolved reference to 'sp_ram_i' in tb.top_i.core_region_i.data_mem.sp_ram_i.
+
+Changed tb_mem_pkg.sv file to:
+
+//          if (bidx%4 == 0)
+//            tb.top_i.core_region_i.data_mem.sp_ram_i.mem[mem_addr][bidx] = data[ 7: 0];
+//          else if (bidx%4 == 1)
+//            tb.top_i.core_region_i.data_mem.sp_ram_i.mem[mem_addr][bidx] = data[15: 8];
+//          else if (bidx%4 == 2)
+//            tb.top_i.core_region_i.data_mem.sp_ram_i.mem[mem_addr][bidx] = data[23:16];
+//          else if (bidx%4 == 3)
+//            tb.top_i.core_region_i.data_mem.sp_ram_i.mem[mem_addr][bidx] = data[31:24];
+
+tb.top_i.core_region_i.data_mem.open_ram_2k.mem[mem_addr] = data[31:0];      
+
+and remove the bidx loop
+
+Then I got an error
+   Error: (vsim-3043) /home/mbaykenar/Desktop/new_pulpino/pulpino/vsim/..//tb/tb_mem_pkg.sv(87): Unresolved reference to 'sp_ram_i' in tb.top_i.core_region_i.instr_mem.sp_ram_wrap_i.sp_ram_i.
+
+This error is due to instruction memory, before was due to data memory. Then I changed:
+
+//          if (bidx%4 == 0)
+//            tb.top_i.core_region_i.instr_mem.sp_ram_wrap_i.sp_ram_i.mem[mem_addr][bidx] = data[ 7: 0];
+//          else if (bidx%4 == 1)
+//            tb.top_i.core_region_i.instr_mem.sp_ram_wrap_i.sp_ram_i.mem[mem_addr][bidx] = data[15: 8];
+//          else if (bidx%4 == 2)
+//            tb.top_i.core_region_i.instr_mem.sp_ram_wrap_i.sp_ram_i.mem[mem_addr][bidx] = data[23:16];
+//          else if (bidx%4 == 3)
+//            tb.top_i.core_region_i.instr_mem.sp_ram_wrap_i.sp_ram_i.mem[mem_addr][bidx] = data[31:24];
+
+tb.top_i.core_region_i.instr_mem.sp_ram_wrap_i.open_ram_2k.mem[mem_addr] = data[31:0]; 
+
+
+I also changed linker script to set instr and data mems to 2K from files
+
+link.common.ld
+s19toslm.py

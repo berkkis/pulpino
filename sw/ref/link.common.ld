@@ -1,15 +1,24 @@
 SEARCH_DIR(.)
 __DYNAMIC  =  0;
 
+/*
 MEMORY
 {
     instrram    : ORIGIN = 0x00000000, LENGTH = 0x8000
     dataram     : ORIGIN = 0x00100000, LENGTH = 0x6000
     stack       : ORIGIN = 0x00106000, LENGTH = 0x2000
+}*/
+
+MEMORY
+{
+    instrram    : ORIGIN = 0x00000000, LENGTH = 0x800
+    dataram     : ORIGIN = 0x00100000, LENGTH = 0x600
+    stack       : ORIGIN = 0x00106000, LENGTH = 0x200
 }
 
 /* Stack information variables */
-_min_stack      = 0x1000;   /* 4K - minimum stack space to reserve */
+/* _min_stack      = 0x1000; */   /* 4K - minimum stack space to reserve */ 
+_min_stack      = 0x100;   /* 256 - minimum stack space to reserve */
 _stack_len     = LENGTH(stack);
 _stack_start   = ORIGIN(stack) + LENGTH(stack);
 

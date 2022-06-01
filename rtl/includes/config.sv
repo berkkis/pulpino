@@ -21,6 +21,7 @@
 // data and instruction RAM address and word width
 `define ROM_ADDR_WIDTH      12
 `define ROM_START_ADDR      32'h8000
+`define ASIC                1
 
 // Simulation only stuff
 `ifndef SYNTHESIS
