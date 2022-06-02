@@ -11,8 +11,18 @@
 
 #include <stdio.h>
 
+//#define LOOPCOUNT 10
+//#define INCREMENT 5
+
 int main()
 {
   printf("Hello World!!!!!\n");
+
+// int a = 0;
+// int i = 0;
+//
+// for (i=0; i < LOOPCOUNT-1; i++)
+//   a = a + INCREMENT;
+
   return 0;
 }

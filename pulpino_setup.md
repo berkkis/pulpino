@@ -268,5 +268,60 @@ tb.top_i.core_region_i.instr_mem.sp_ram_wrap_i.open_ram_2k.mem[mem_addr] = data[
 
 I also changed linker script to set instr and data mems to 2K from files
 
-link.common.ld
-s19toslm.py
+sw/ref/link.common.ld
+sw/util/s19toslm.py
+
+I changed gcc compiler flags inside configuration script:
+   sw/build2/cmake_configure.zeroriscy.gcc.sh 
+
+Such as:
+   TARGET_C_FLAGS="-Os -m32"
+   RVC=1
+
+helloworld compiled succesfully for 2K instr ram
+
+But Modelsim simulation gave an error about uart test
+This is due to openram input registering of adress signal I assume
+
+When Modelsim opens, run these:
+
+add wave -position end  sim:/tb/top_i/uart_tx
+add wave -position end  sim:/tb/top_i/core_region_i/instr_mem/sp_ram_wrap_i/open_ram_2k/clk0
+add wave -position end  sim:/tb/top_i/core_region_i/instr_mem/sp_ram_wrap_i/open_ram_2k/csb0
+add wave -position end  sim:/tb/top_i/core_region_i/instr_mem/sp_ram_wrap_i/open_ram_2k/web0
+add wave -position end  sim:/tb/top_i/core_region_i/instr_mem/sp_ram_wrap_i/open_ram_2k/wmask0
+add wave -position end  sim:/tb/top_i/core_region_i/instr_mem/sp_ram_wrap_i/open_ram_2k/addr0
+add wave -position end  sim:/tb/top_i/core_region_i/instr_mem/sp_ram_wrap_i/open_ram_2k/din0
+add wave -position end  sim:/tb/top_i/core_region_i/instr_mem/sp_ram_wrap_i/open_ram_2k/dout0
+add wave -position end  sim:/tb/top_i/core_region_i/instr_mem/sp_ram_wrap_i/open_ram_2k/clk1
+add wave -position end  sim:/tb/top_i/core_region_i/instr_mem/sp_ram_wrap_i/open_ram_2k/csb1
+add wave -position end  sim:/tb/top_i/core_region_i/instr_mem/sp_ram_wrap_i/open_ram_2k/addr1
+add wave -position end  sim:/tb/top_i/core_region_i/instr_mem/sp_ram_wrap_i/open_ram_2k/dout1
+add wave -position end  sim:/tb/top_i/core_region_i/instr_mem/sp_ram_wrap_i/open_ram_2k/csb0_reg
+add wave -position end  sim:/tb/top_i/core_region_i/instr_mem/sp_ram_wrap_i/open_ram_2k/web0_reg
+add wave -position end  sim:/tb/top_i/core_region_i/instr_mem/sp_ram_wrap_i/open_ram_2k/wmask0_reg
+add wave -position end  sim:/tb/top_i/core_region_i/instr_mem/sp_ram_wrap_i/open_ram_2k/addr0_reg
+add wave -position end  sim:/tb/top_i/core_region_i/instr_mem/sp_ram_wrap_i/open_ram_2k/din0_reg
+add wave -position end  sim:/tb/top_i/core_region_i/instr_mem/sp_ram_wrap_i/open_ram_2k/csb1_reg
+add wave -position end  sim:/tb/top_i/core_region_i/instr_mem/sp_ram_wrap_i/open_ram_2k/addr1_reg
+add wave -position end  sim:/tb/top_i/core_region_i/instr_mem/sp_ram_wrap_i/open_ram_2k/mem
+add wave -position end  sim:/tb/top_i/core_region_i/data_mem/open_ram_2k/clk0
+add wave -position end  sim:/tb/top_i/core_region_i/data_mem/open_ram_2k/csb0
+add wave -position end  sim:/tb/top_i/core_region_i/data_mem/open_ram_2k/web0
+add wave -position end  sim:/tb/top_i/core_region_i/data_mem/open_ram_2k/wmask0
+add wave -position end  sim:/tb/top_i/core_region_i/data_mem/open_ram_2k/addr0
+add wave -position end  sim:/tb/top_i/core_region_i/data_mem/open_ram_2k/din0
+add wave -position end  sim:/tb/top_i/core_region_i/data_mem/open_ram_2k/dout0
+add wave -position end  sim:/tb/top_i/core_region_i/data_mem/open_ram_2k/clk1
+add wave -position end  sim:/tb/top_i/core_region_i/data_mem/open_ram_2k/csb1
+add wave -position end  sim:/tb/top_i/core_region_i/data_mem/open_ram_2k/addr1
+add wave -position end  sim:/tb/top_i/core_region_i/data_mem/open_ram_2k/dout1
+add wave -position end  sim:/tb/top_i/core_region_i/data_mem/open_ram_2k/csb0_reg
+add wave -position end  sim:/tb/top_i/core_region_i/data_mem/open_ram_2k/web0_reg
+add wave -position end  sim:/tb/top_i/core_region_i/data_mem/open_ram_2k/wmask0_reg
+add wave -position end  sim:/tb/top_i/core_region_i/data_mem/open_ram_2k/addr0_reg
+add wave -position end  sim:/tb/top_i/core_region_i/data_mem/open_ram_2k/din0_reg
+add wave -position end  sim:/tb/top_i/core_region_i/data_mem/open_ram_2k/csb1_reg
+add wave -position end  sim:/tb/top_i/core_region_i/data_mem/open_ram_2k/addr1_reg
+add wave -position end  sim:/tb/top_i/core_region_i/data_mem/open_ram_2k/mem
+

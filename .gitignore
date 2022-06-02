@@ -4,3 +4,5 @@ imperio
 ipstools
 sw/build_synth/*
 sw/build_openram/*
+sw/build2/*
+sw/build*
